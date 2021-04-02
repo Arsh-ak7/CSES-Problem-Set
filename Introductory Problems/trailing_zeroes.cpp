@@ -3,15 +3,17 @@
 
 using namespace std;
 
-int main(){
+int main()
+{
     long long n;
-    cin>>n;
+    cin >> n;
     long long pow_of_five = 0;
     int i = 1;
     long long div;
-    while((div=pow(5,i))<=n){
-        pow_of_five+=floor(n/div);
+    while ((div = pow(5, i)) <= n)
+    {
+        pow_of_five += floor(n / div);
         i++;
     }
-    cout<<pow_of_five;
+    cout << pow_of_five;
 }

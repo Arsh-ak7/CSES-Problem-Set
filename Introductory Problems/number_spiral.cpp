@@ -1,7 +1,7 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
- 
+
 void solve()
 {
 	ll r, c;
@@ -21,7 +21,8 @@ void solve()
 			ans = z2 + 2 * z - c;
 		}
 	}
-	else {
+	else
+	{
 		if (r == z)
 		{
 			ans = z2 + c;
@@ -30,23 +31,21 @@ void solve()
 		{
 			ans = z2 + 2 * z - r;
 		}
- 
 	}
- 
- 
+
 	cout << ans << endl;
- 
 }
 int main()
 {
-	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 	ll t;
 	cin >> t;
 	while (t--)
 	{
 		solve();
- 
 	}
- 
+
 	return 0;
 }
