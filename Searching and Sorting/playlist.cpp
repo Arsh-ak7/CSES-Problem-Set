@@ -24,9 +24,12 @@ int main()
     long long ans = 0;
     for (long long i = 0, j = 0; i < n; ++i)
     {
+        //cout << mp[arr[i]] << " ";
         j = max(mp[arr[i]], j);
+        //cout << j << " ";
         ans = max(ans, i - j + 1);
         mp[arr[i]] = i + 1;
+        //cout << mp[arr[i]] << endl;
     }
     cout << ans;
 }
