@@ -21,9 +21,9 @@ int main()
     sort(v.begin(), v.end());
     for (int i = 0; i < n - 3; ++i)
     {
-        long long currSum = v[i].first;
-        for (int m = i + 1; i < n - 2; ++m)
+        for (int m = i + 1; m < n - 2; ++m)
         {
+            long long currSum = v[i].first;
             currSum += v[m].first;
             long long j = m + 1, k = v.size() - 1;
             while (j < k)
