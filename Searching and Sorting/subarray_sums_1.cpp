@@ -1,33 +1,31 @@
 #include <iostream>
-#include <unordered_map>
 
 using namespace std;
 
-long long calcSums(long long arr[], int n, int x)
-{
-    unordered_map<long long, long long> mp;
-    int count = 0;
-    long long currSum = 0;
-    for (int i = 0; i < n; ++i)
-    {
-        currSum += arr[i];
-        if (currSum == x)
-            count++;
-        if (mp.count(currSum - x))
-            count += (mp[currSum - x]);
-        mp[currSum]++;
-    }
-    return count;
-}
-
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    int n, x;
+    long long n, x;
     cin >> n >> x;
     long long arr[n];
-    for (int i = 0; i < n; ++i)
+    for (long long i = 0; i < n; ++i)
         cin >> arr[i];
-    cout << calcSums(arr, n, x) << endl;
+    long long start = 0;
+    long long count = 0;
+    long long currSum = arr[0];
+    for (long long i = 1; i <= n; ++i)
+    {
+        while (currSum > x && start < i - 1)
+        {
+            currSum -= arr[start];
+            start++;
+        }
+        if (currSum == x)
+            count++;
+
+        if (i < n)
+        {
+            currSum += arr[i];
+        }
+    }
+    cout << count;
 }
