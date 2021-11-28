@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void buildTree(vector<int> &segTree, int index, int low, int high, int arr[])
+void buildTree(long long segTree[], long long index, long long low, long long high, long long arr[])
 {
     if (low == high)
     {
@@ -12,14 +12,14 @@ void buildTree(vector<int> &segTree, int index, int low, int high, int arr[])
         return;
     }
 
-    int mid = (low + high) / 2;
+    long long mid = (low + high) / 2;
     buildTree(segTree, 2 * index, low, mid, arr);
     buildTree(segTree, 2 * index + 1, mid + 1, high, arr);
 
     segTree[index] = segTree[2 * index] + segTree[2 * index + 1];
 }
 
-int query(vector<int> segTree, int index, int low, int high, int l, int r)
+long long query(long long segTree[], long long index, long long low, long long high, long long l, long long r)
 {
     if (l <= low && r >= high)
         return segTree[index];
@@ -27,10 +27,10 @@ int query(vector<int> segTree, int index, int low, int high, int l, int r)
     if (high < l || low > r)
         return 0;
 
-    int mid = (low + high) / 2;
+    long long mid = (low + high) / 2;
 
-    int left = query(segTree, 2 * index, low, mid, l, r);
-    int right = query(segTree, 2 * index + 1, mid + 1, high, l, r);
+    long long left = query(segTree, 2 * index, low, mid, l, r);
+    long long right = query(segTree, 2 * index + 1, mid + 1, high, l, r);
     return left + right;
 }
 
@@ -38,19 +38,19 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
-    int n, q;
+    long long n, q;
     cin >> n >> q;
-    int arr[n];
-    for (int i = 0; i < n; i++)
+    long long arr[n];
+    for (long long i = 0; i < n; i++)
         cin >> arr[i];
-    vector<int> segTree(4 * n, 0);
+    long long segTree[4 * n] = {0};
     buildTree(segTree, 1, 0, n - 1, arr);
     while (q--)
     {
-        int l, r;
+        long long l, r;
         cin >> l >> r;
         l--, r--;
-        int ans = query(segTree, 1, 0, n - 1, l, r);
+        long long ans = query(segTree, 1, 0, n - 1, l, r);
         cout << ans << '\n';
     }
 
