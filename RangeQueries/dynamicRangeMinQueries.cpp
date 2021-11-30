@@ -79,12 +79,31 @@ long long query(int node, int node_low, int node_high, int l, int r)
     return min(query(2 * node, node_low, last_in_left, l, r), query(2 * node + 1, last_in_left + 1, node_high, l, r));
 }
 
-void update(int n, int i, int v)
+void update(int n, int i, int v) // O(logn), iterative
 {
     tree[n + i] = v;
     for (int j = (n + i) / 2; j >= 1; j /= 2) // dividing j by 2 basically helps to move from leaf to parent and grandparent and so on...
         tree[j] = min(tree[2 * j], tree[2 * j + 1]);
 }
+
+void update_recursive(int node, int node_low, int node_high, int l, int r, int val) // recursion
+{
+    if (l <= node_low && r >= node_high)
+    {
+        tree[node] = val;
+        return;
+    }
+
+    if (node_high < l || r < node_low)
+        return;
+
+    int last_in_left = (node_low + node_high) / 2;
+    update_recursive(2 * node, node_low, last_in_left, l, r, val);
+    update_recursive(2 * node + 1, last_in_left + 1, node_high, l, r, val);
+
+    tree[node] = min(tree[2 * node], tree[2 * node + 1]);
+}
+
 int main()
 {
     int n, q;
@@ -119,7 +138,7 @@ int main()
             int k = low;
             int val = high;
             k--;
-            update(n, k, val);
+            update_recursive(1, 0, n - 1, k, k, val);
         }
         else
         {
