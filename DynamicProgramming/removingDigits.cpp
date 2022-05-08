@@ -1,16 +1,12 @@
-// 1. Recurision
-
 #pragma GCC optimize("O2")
 
 #include <iostream>
 #include <algorithm>
 #include <cmath>
-#include <string>
+#include <cstring>
 #include <vector>
 
 using namespace std;
-
-#define int long long
 
 int MOD = 1e9 + 7;
 
@@ -19,99 +15,48 @@ int MOD = 1e9 + 7;
     cin.tie(NULL);                    \
     cout.tie(NULL);
 
-int recursiveRemovingDigits(int n)
+// RECURSION
+
+int removingDigitsRecur(int n)
 {
     if (n == 0)
         return 0;
     if (n < 0)
-        return INT64_MAX;
+        return 0;
+
+    int count = INT32_MAX;
     string num = to_string(n);
-    int min_count = 1e9;
-    for (auto ch : num)
+    for (char &c : num)
     {
-        if (ch != '0')
-            min_count = min(min_count, 1 + recursiveRemovingDigits(n - (ch - '0')));
+        if (c != '0')
+            count = min(count, (1 + removingDigitsRecur(n - c + '0')));
     }
-
-    return min_count;
+    return count;
 }
 
-signed main()
+// MEMOIZATION
+
+int removingDigitsMemo(int n, int dp[])
 {
-    fast_cin();
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-    int n;
-    cin >> n;
-    cout << recursiveRemovingDigits(n);
-    return 0;
-}
-
-// 2. MEMO
-
-#pragma GCC optimize("O2")
-
-#include <iostream>
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
-
-using namespace std;
-
-#define int long long
-
-int MOD = 1e9 + 7;
-
-#define fast_cin()                    \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL);
-
-int recursiveRemovingDigitsMemo(int n, vector<int> &dp)
-{
-    if (n == 0)
+    if (n <= 0)
         return 0;
-    if (n < 0)
-        return INT64_MAX;
     if (dp[n] != -1)
         return dp[n];
+
+    int count = INT32_MAX;
     string num = to_string(n);
-    int min_count = 1e9;
-    for (auto ch : num)
+    for (char &c : num)
     {
-        if (ch != '0')
-            min_count = min(min_count, 1 + recursiveRemovingDigitsMemo(n - (ch - '0'), dp));
-        dp[n] = min_count;
+        if (c != '0')
+            count = min(count, 1 + removingDigitsMemo(n - c + '0', dp));
     }
 
-    return dp[n];
+    return dp[n] = count;
 }
 
-signed main()
-{
-    fast_cin();
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-    int n;
-    cin >> n;
-    vector<int> dp(n + 1, -1);
-    cout << recursiveRemovingDigitsMemo(n, dp);
-    return 0;
-}
+// DP
 
-// 3. DP
-
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-int minRemovals(int n)
+int removingDigitsDP(int n)
 {
     vector<int> dp(n + 1, 1e9);
     dp[0] = 0;
@@ -125,7 +70,16 @@ int minRemovals(int n)
 
 int main()
 {
+    fast_cin();
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
     int n;
     cin >> n;
-    cout << minRemovals(n) << '\n';
+    // cout << removingDigitsRecur(n);
+    int dp[n + 1];
+    memset(dp, -1, sizeof(dp));
+    cout << removingDigitsDP(n);
+    return 0;
 }
